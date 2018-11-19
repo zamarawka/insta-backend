@@ -1,0 +1,46 @@
+parameters:
+  ResourceId:
+    in: path
+    name: id
+    required: true
+    type: integer
+    description: 'The resource ID'
+
+  ResourceUuid:
+    in: path
+    name: id
+    required: true
+    type: string
+    format: uuid
+    description: 'The resource UUID'
+
+  UserId:
+    in: path
+    name: userId
+    required: true
+    type: string
+    description: 'User uuid or nickname'
+
+  perPage:
+    in: query
+    name: perPage
+    type: integer
+    default: 15
+    maximum: 35
+    minimum: 1
+    description: 'Count of items on one page'
+
+  page:
+    in: query
+    name: page
+    type: integer
+    minimum: 1
+    default: 1
+    description: 'Current page'
+
+  Action:
+    name: action
+    in: query
+    type: string
+    required: true
+    description: 'Action parameter for non-CRUD actions'

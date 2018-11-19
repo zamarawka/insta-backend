@@ -1,0 +1,15 @@
+{
+  "root": true,
+  "env": {
+    "node": true
+  },
+  "extends": ["kasa"],
+  "parserOptions": {
+    "sourceType": "script"
+  },
+  "rules": {
+    "quotes": [
+      "error", "single", { "allowTemplateLiterals": true }
+    ]
+  }
+}

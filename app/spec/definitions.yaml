@@ -1,0 +1,185 @@
+definitions:
+  ResponseStatuses: &RESPONSE_STATUSES
+    type: string
+    enum:
+      - success
+      - fail
+      - error
+
+  ResponseFailCodes: &RESPONSE_FAIL_CODES
+    type: string
+    enum:
+      - INVALID_REQUEST
+      - UNKNOWN_ENDPOINT
+
+  ResponseErrorCodes: &RESPONSE_ERROR_CODES
+    type: string
+    enum:
+      - INTERNAL_ERROR
+      - UNKNOWN_ERROR
+
+  SuccessResponse:
+    type: object
+    properties:
+      status:
+        $ref: '#/definitions/ResponseStatuses'
+      data:
+        type: object
+      message:
+        type: string
+    required:
+      - status
+      - data
+      - message
+
+  FailResponse:
+    type: object
+    properties:
+      status:
+        $ref: '#/definitions/ResponseStatuses'
+      code:
+        $ref: '#/definitions/ResponseFailCodes'
+      data:
+        type: object
+      message:
+        type: string
+    required:
+      - status
+      - code
+      - message
+    example:
+      status: fail
+      code: UNKNOWN_ENDPOINT
+      message: 'The requested endpoint does not exist.'
+
+  ErrorResponse:
+    type: object
+    properties:
+      status:
+        $ref: '#/definitions/ResponseStatuses'
+      code:
+        $ref: '#/definitions/ResponseErrorCodes'
+      data:
+        type: object
+      message:
+        type: string
+    required:
+      - status
+      - code
+      - message
+    example:
+      status: error
+      code: UNKNOWN_ERROR
+      message: 'The server encountered an unknown error.'
+
+  Token:
+    type: string
+
+  User:
+    type: object
+    properties:
+      _id:
+        type: string
+        format: uuid
+      name:
+        type: string
+      nickname:
+        type: string
+      about:
+        type: string
+      avatar:
+        type: file
+      createdAt:
+        type: string
+        format: dateTime
+      updatedAt:
+        type: string
+        format: dateTime
+    required:
+      - nickname
+      - name
+    example:
+      _id: 6d71cc5c-3de8-445e-8b6c-2b487fe42ce9
+      name: Angie
+      nickname: id_angie
+      about: 'MSK. Planet Earth.'
+      avatar: 'avatar-file.png'
+      createdAt: "2018-11-04T00:55:19.137Z"
+      updatedAt: "2018-11-04T00:55:19.137Z"
+
+  Media:
+    type: string
+    example: "post.jpg"
+
+  Post:
+    type: object
+    properties:
+      _id:
+        type: string
+        format: uuid
+      userId:
+        type: string
+        format: uuid
+      file:
+        $ref: "#/definitions/Media"
+      feedback:
+        type: object
+        properties:
+          saves:
+            type: array
+          likes:
+            type: array
+      createdAt:
+        type: string
+        format: dateTime
+      updatedAt:
+        type: string
+        format: dateTime
+    required:
+      - file
+    example:
+      _id: 6d71fd5c-3de8-445e-8b6c-2b487fe42ce9
+      userId: 6d71cc5c-3de8-445e-8b6c-2b487fe42ce9
+      file: post.jpg
+      feedback:
+        saves: []
+        likes: []
+      createdAt: "2018-11-04T00:55:19.137Z"
+      updatedAt: "2018-11-04T00:55:19.137Z"
+
+  Comment:
+    type: object
+    properties:
+      _id:
+        type: string
+        format: uuid
+      postId:
+        type: string
+        format: uuid
+      userId:
+        type: string
+        format: uuid
+      user:
+        $ref: '#/definitions/User'
+      text:
+        type: string
+      createdAt:
+        type: string
+        format: dateTime
+      updatedAt:
+        type: string
+        format: dateTime
+      likes:
+        type: integer
+        default: 0
+    example:
+      _id: 6d71fd5c-3de8-445e-8b6c-2b487fe42ce9
+      postId: 7sgfcc5c-3de8-445e-8b6c-2b487fe42ce9
+      userId: 8d71cc5c-3de8-445e-8b6c-2b487fe42ce9
+      user:
+        $ref: '#/definitions/User'
+      text: "Where is it?"
+      likes: 3
+      createdAt: "2018-11-04T00:55:19.137Z"
+      updatedAt: "2018-11-04T00:55:19.137Z"
+

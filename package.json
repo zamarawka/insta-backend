@@ -1,0 +1,64 @@
+{
+  "name": "insta-backend",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "author": {
+    "name": "Zamarawka",
+    "email": "somebody.told@mail.com"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">= 7.0.0"
+  },
+  "main": "app",
+  "scripts": {
+    "start": "node app",
+    "dev": "NODE_ENV=development nodemon --quiet -e js,json,yaml | bunyan",
+    "test": "NODE_ENV=test jest --forceExit --verbose",
+    "test:unit": "npm test -- test/unit",
+    "test:integration": "npm test -- test/integration",
+    "test:watch": "npm test -- --watch --verbose=false",
+    "test:watch:unit": "npm run test:unit -- --watch",
+    "test:watch:integration": "npm run test:integration -- --watch",
+    "test:coverage": "npm test -- --coverage",
+    "test:coverage:unit": "npm run test:unit -- --coverage",
+    "test:coverage:integration": "npm run test:integration -- --coverage",
+    "lint": "eslint app test",
+    "lint:app": "eslint app",
+    "lint:test": "eslint test"
+  },
+  "dependencies": {
+    "@koa/cors": "2",
+    "bunyan": "^1.8.12",
+    "concat-stream": "^1.6.2",
+    "dotenv": "^6.0.0",
+    "elastic-apm-node": "^1.8.3",
+    "koa": "^2.6.1",
+    "koa-bodyparser": "^4.2.0",
+    "koa-mount": "^4.0.0",
+    "koa-multer": "^1.0.2",
+    "koa-passport": "^4.1.1",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "nedb-promise": "^2.0.1",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
+    "swagger-jsdoc": "^3.2.2",
+    "uuid": "^3.3.2",
+    "uuid-v4-regex": "^1.0.2",
+    "validatorjs": "^3.15.1"
+  },
+  "devDependencies": {
+    "coveralls": "^3.0.2",
+    "eslint": "^5.2.0",
+    "eslint-config-kasa": "^0.1.0",
+    "jest": "^23.6.0",
+    "jest-junit": "^5.1.0",
+    "nodemon": "^1.18.3",
+    "supertest": "^3.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}
