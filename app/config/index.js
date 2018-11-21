@@ -12,14 +12,14 @@ const configs = {
     env,
     name: process.env.APP_NAME || 'insta-backend',
     host: process.env.APP_HOST || '0.0.0.0',
-    port: process.env.APP_PORT || 1337,
+    port: process.env.PORT || 1337,
     appSecret: process.env.APP_SECRET,
     dbPath: process.env.DB_PATH,
     uploadPath: process.env.UPLOAD_PATH,
     staticUrlPrefix: process.env.STATIC_URL_PREFIX
   },
   production: {
-    port: process.env.APP_PORT || 7071
+    port: process.env.PORT || 7071
   },
   development: {
   },
