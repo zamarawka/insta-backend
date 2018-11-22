@@ -292,6 +292,8 @@ exports.putUpdate = async ({ res, req, request, currentUser }) => {
 
   if (updateUser.avatar === 'null') {
     updateUser.avatar = null;
+  } else if (!file) {
+    delete updateUser.avatar;
   }
 
   try {
