@@ -4,7 +4,7 @@ const supertest = require('supertest');
 
 const app = require('../../app');
 
-const { getPost, getToken } = require('../fixtures/seed');
+const { getPost, getToken, createPost } = require('../fixtures/seed');
 
 let postModel = null;
 
@@ -314,6 +314,70 @@ describe('Posts', () => {
       expect(postData.post).toHaveProperty('feedback');
       expect(postData.post.feedback).toHaveProperty('saves');
       expect(postData.post.feedback.saves).not.toContain(user['_id']);
+    });
+  });
+
+  describe('DELETE /posts/:postId', () => {
+    it('<404> should throw not found error', async () => {
+      const { token } = await getToken(request);
+
+      const res = await request
+        .delete(`/posts/${uuid()}`)
+        .set('Authorization', token)
+        .expect('Content-Type', /json/)
+        .expect(404);
+
+      const { status } = res.body;
+
+      expect(status).toBe('fail');
+    });
+
+    it('<401> should throw unauthorized error', async () => {
+      const { token } = await getToken(request);
+      const { post } = await createPost(request, token);
+
+      const { token: otherToken } = await getToken(request);
+
+      const res = await request
+        .delete(`/posts/${post['_id']}`)
+        .set('Authorization', otherToken)
+        .expect('Content-Type', /json/)
+        .expect(401);
+
+      const { status } = res.body;
+
+      expect(status).toBe('fail');
+    });
+
+    it('<200> should return 200 if success', async () => {
+      const { token, user } = await getToken(request);
+      const { post } = await createPost(request, token);
+
+      const res = await request
+        .delete(`/posts/${post['_id']}`)
+        .set('Authorization', token)
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      const { status } = res.body;
+
+      expect(status).toBe('success');
+
+      const resPost = await request
+        .get(`/posts/${post['_id']}`)
+        .expect(404);
+
+      const { status: postStatus } = resPost.body;
+
+      expect(postStatus).toBe('fail');
+
+      const resUser = await request
+        .get(`/users/${user['_id']}`)
+        .expect(200);
+
+      const { data: userData } = resUser.body;
+
+      expect(userData.user.counters).toHaveProperty('posts', user.counters.posts);
     });
   });
 });
