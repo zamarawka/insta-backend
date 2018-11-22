@@ -88,4 +88,10 @@ module.exports = class User extends Model {
       $inc: { [`counters.${name}`]: 1 }
     });
   }
+
+  decrementCounter(name) {
+    return this.constructor.db.update({ _id: this['_id'] }, {
+      $inc: { [`counters.${name}`]: -1 }
+    });
+  }
 };
