@@ -136,11 +136,6 @@ exports.postCreate = async ({ request, params, res, currentUser }) => {
  *       - Private
  *     parameters:
  *       - $ref: "#/parameters/ResourceUuid"
- *       - required: true
- *         in: body
- *         name: comment
- *         schema:
- *           $ref: "#/definitions/Comment"
  *     summary: Remove comment.
  *     operationId: deleteRemove
  *     responses:
