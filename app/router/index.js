@@ -33,6 +33,7 @@ router.post(`/posts/${id.wildcard}/like`, auth, postsController.postLike);
 router.post(`/posts/${id.wildcard}/unlike`, auth, postsController.postUnlike);
 router.post(`/posts/${id.wildcard}/save`, auth, postsController.postSave);
 router.post(`/posts/${id.wildcard}/unsave`, auth, postsController.postUnsave);
+router.delete(`/posts/${id.wildcard}`, auth, postsController.deleteRemove);
 
 router.get(`/posts/${id.wildcard}/comments`, commentsController.getIndex);
 router.post(`/posts/${id.wildcard}/comments`, auth, commentsController.postCreate);

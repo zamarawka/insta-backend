@@ -364,3 +364,46 @@ exports.postUnsave = async ({ params, res, currentUser }) => {
     });
   }
 };
+
+/**
+ * @swagger
+ * /posts/{id}:
+ *   delete:
+ *     tags:
+ *       - Private
+ *     parameters:
+ *       - $ref: "#/parameters/ResourceUuid"
+ *     summary: Remove post.
+ *     operationId: deleteRemove
+ *     responses:
+ *       422:
+ *         $ref: "#/responses/ValidationError"
+ *       200:
+ *         description: Return success if ready.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             status:
+ *               $ref: "#/definitions/ResponseStatuses"
+ */
+exports.deleteRemove = async ({ params, res, currentUser }) => {
+  const { id: postId } = params;
+
+  try {
+    const post = await Post.find({ _id: postId });
+
+    if (currentUser['_id'] !== post.userId) {
+      return res.unauthorized();
+    }
+
+    currentUser.decrementCounter('posts');
+
+    post.remove();
+
+    return res.ok();
+  } catch(e) {
+    return res.notFound({
+      data: e
+    });
+  }
+};
