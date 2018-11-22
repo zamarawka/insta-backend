@@ -243,6 +243,35 @@ describe('Users', () => {
         .set('Authorization', token)
         .set('Content-Type', 'multipart/form-data')
         .field('name', newUser.name)
+        .field('avatar', '/static/file.png')
+        .expect('Content-Type', /json/)
+        .expect(200);
+
+      const { data, status } = res.body;
+
+      expect(status).toBe('success');
+      expect(data).toHaveProperty('user');
+      expect(data.user).toHaveProperty('_id', userModel['_id']);
+      expect(data.user).toHaveProperty('nickname', newUser.nickname);
+      expect(data.user).toHaveProperty('name', newUser.name);
+      expect(data.user).not.toHaveProperty('avatar', '/static//static/file.png');
+      expect(data.user).toHaveProperty('avatar');
+
+      userModel.nickname = newUser.nickname;
+      userModel.name = newUser.name;
+    });
+
+    it('<200> should update user via multipart and return 200', async () => {
+      const newUser = {
+        nickname: 'angie',
+        name: 'some-angie'
+      };
+
+      const res = await request
+        .put(`/users`)
+        .set('Authorization', token)
+        .set('Content-Type', 'multipart/form-data')
+        .field('name', newUser.name)
         .field('avatar', 'null')
         .expect('Content-Type', /json/)
         .expect(200);
